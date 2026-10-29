@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/percentage-calculator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/password-generator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/word-counter.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/unit-converter.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/random-number-generator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://zacariasfaray-dev.github.io/utilhub/tip-calculator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/percentage-calculator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/password-generator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/word-counter.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/unit-converter.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/random-number-generator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://zacariasfaray-dev.github.io/farayzin-utilhub/tip-calculator.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 </urlset>

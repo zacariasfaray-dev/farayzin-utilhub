@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zacariasfaray-dev.github.io/utilhub/sitemap.xml
+Sitemap: https://zacariasfaray-dev.github.io/farayzin-utilhub/sitemap.xml
