@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage Calculator — Increase, Decrease &amp; "What % Of" | UtilHub</title>
+<meta name="description" content="Free percentage calculator: find X% of a number, what percent X is of Y, and percentage increase or decrease between two numbers. Instant, private, no sign-up.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ffb300'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%231a1200'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://zacariasfaray-dev.github.io/utilhub/percentage-calculator.html">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="index.html">Util<span>Hub</span></a><nav class="top"><a href="index.html#tools">All tools</a></nav></div></header>
+
+<main class="wrap">
+<section class="tool-head">
+  <span class="pill">Percentage Calculator</span>
+  <h1>Percentages, three ways</h1>
+  <p class="lead">Discounts, price increases, test scores, tips — pick the question you need answered and get the result as you type.</p>
+</section>
+
+<section class="panel">
+  <label for="mode">What do you want to know?</label>
+  <select id="mode">
+    <option value="of">What is X% of Y?</option>
+    <option value="iswhat">X is what percent of Y?</option>
+    <option value="change">Percentage change from X to Y</option>
+  </select>
+  <div class="row2">
+    <div><label for="a" id="lblA">X (% value)</label><input id="a" type="number" inputmode="decimal" placeholder="e.g. 15"></div>
+    <div><label for="b" id="lblB">Y (the number)</label><input id="b" type="number" inputmode="decimal" placeholder="e.g. 200"></div>
+  </div>
+  <div class="result" id="out" aria-live="polite">—</div>
+</section>
+
+<section class="prose">
+  <h2>How to use it</h2>
+  <p><strong>"What is X% of Y"</strong> answers discount-style questions: 15% of $200 = $30. Type the percentage in X and the total in Y.</p>
+  <p><strong>"X is what percent of Y"</strong> is for scores and shares: you scored 45 points out of 60 — that's 75%.</p>
+  <p><strong>"Percentage change"</strong> compares two values: rent went from $800 to $920, which is a 15% increase. If the result is negative, the value went down.</p>
+</section>
+
+<section class="faq">
+  <h2>Percentage FAQ</h2>
+  <details><summary>Why does percentage change use the old value as the base?</summary><p>Because change is always relative to where you started. Going from 800 to 920 is +120 on a base of 800 (15%), not on 920 (13%) — using the starting value keeps increases and decreases symmetric.</p></details>
+  <details><summary>Can I use negative numbers?</summary><p>Yes. A negative in the change mode means the value dropped; a negative percentage in "what is X% of Y" gives a negative result, which is usually not what you want — double-check the sign.</p></details>
+  <details><summary>Does it work offline?</summary><p>Yes. Once the page has loaded, the calculation happens entirely on your device.</p></details>
+</section>
+
+<section class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="tip-calculator.html">Tip Calculator</a></li>
+    <li><a href="unit-converter.html">Unit Converter</a></li>
+    <li><a href="random-number-generator.html">Random Number Generator</a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="site"><div class="wrap"><span>© <span id="ano"></span> UtilHub — free browser tools.</span><span><a href="index.html">All tools</a></span></div></footer>
+<script src="script.js"></script>
+<script>
+(function () {
+  var mode = document.getElementById("mode"),
+      a = document.getElementById("a"), b = document.getElementById("b"),
+      la = document.getElementById("lblA"), lb = document.getElementById("lblB"),
+      out = document.getElementById("out");
+  function labels() {
+    var m = mode.value;
+    if (m === "of") { la.textContent = "X — the percentage (%)"; lb.textContent = "Y — the total"; }
+    else if (m === "iswhat") { la.textContent = "X — the part"; lb.textContent = "Y — the total"; }
+    else { la.textContent = "X — old value"; lb.textContent = "Y — new value"; }
+  }
+  function calc() {
+    var x = parseFloat(a.value), y = parseFloat(b.value);
+    if (isNaN(x) || isNaN(y)) { out.textContent = "—"; return; }
+    if (mode.value === "of") out.textContent = (x / 100 * y).toLocaleString("en-US", { maximumFractionDigits: 4 });
+    else if (mode.value === "iswhat") out.textContent = y === 0 ? "cannot divide by 0" : (x / y * 100).toLocaleString("en-US", { maximumFractionDigits: 2 }) + "%";
+    else out.textContent = x === 0 ? "old value cannot be 0" : ((y - x) / Math.abs(x) * 100).toLocaleString("en-US", { maximumFractionDigits: 2 }) + "%";
+  }
+  mode.addEventListener("change", function () { labels(); calc(); });
+  [a, b].forEach(function (el) { el.addEventListener("input", calc); });
+  labels();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Number Generator — Fair Picks For Giveaways &amp; Games | UtilHub</title>
+<meta name="description" content="Generate random numbers in any range — one or many, with or without repeats. Cryptographically fair picks for giveaways, games and classroom use.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ffb300'/%3E%3Ctext x='50' y='66' font-size='50' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%231a1200'%3E%F0%9F%8E%B2%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://zacariasfaray-dev.github.io/utilhub/random-number-generator.html">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="index.html">Util<span>Hub</span></a><nav class="top"><a href="index.html#tools">All tools</a></nav></div></header>
+
+<main class="wrap">
+<section class="tool-head">
+  <span class="pill">Random Number Generator</span>
+  <h1>Fair random picks</h1>
+  <p class="lead">Giveaway winners, game decisions, study sampling — powered by your browser's cryptographic random source, so every number in the range is equally likely.</p>
+</section>
+
+<section class="panel">
+  <div class="row2">
+    <div><label for="min">Minimum</label><input id="min" type="number" value="1"></div>
+    <div><label for="max">Maximum</label><input id="max" type="number" value="100"></div>
+  </div>
+  <div class="row2">
+    <div><label for="qty">How many numbers</label><input id="qty" type="number" value="1" min="1" max="1000"></div>
+    <div><label for="uniq">Repeats allowed?</label><select id="uniq"><option value="no">No — unique picks</option><option value="yes">Yes</option></select></div>
+  </div>
+  <div class="result" id="out" aria-live="polite">—</div>
+  <button class="btn" id="go">Generate</button>
+</section>
+
+<section class="prose">
+  <h2>How randomness works here</h2>
+  <p><strong>Fair means uniform.</strong> This tool uses <code>crypto.getRandomValues</code> — the same cryptographic source browsers use for security — so no number in your range is favored. Lottery-style draws and giveaway raffles can trust the pick.</p>
+  <p><strong>Unique mode</strong> is for draws without replacement: picking 3 winners from 500 entries gives you 3 different numbers, like drawing names from a hat without putting them back.</p>
+</section>
+
+<section class="faq">
+  <h2>Random FAQ</h2>
+  <details><summary>Can I pick 6 lottery numbers from 1–60?</summary><p>Yes — set minimum 1, maximum 60, quantity 6, and "unique picks" on. Note that official lottery entries still need a real ticket; this is for games, simulations and classroom stats.</p></details>
+  <details><summary>Is it better than Math.random()?</summary><p>Math.random is fine for casual use but its quality isn't guaranteed. The cryptographic source used here has no known bias, which matters when the pick must be defensible.</p></details>
+  <details><summary>Why did my unique request do nothing?</summary><p>Unique mode needs enough room: you can't draw 10 unique numbers from a range of 5. Widen the range or reduce the quantity.</p></details>
+</section>
+
+<section class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="password-generator.html">Password Generator</a></li>
+    <li><a href="percentage-calculator.html">Percentage Calculator</a></li>
+    <li><a href="tip-calculator.html">Tip Calculator</a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="site"><div class="wrap"><span>© <span id="ano"></span> UtilHub — free browser tools.</span><span><a href="index.html">All tools</a></span></div></footer>
+<script src="script.js"></script>
+<script>
+(function () {
+  var min = document.getElementById("min"), max = document.getElementById("max"),
+      qty = document.getElementById("qty"), uniq = document.getElementById("uniq"),
+      out = document.getElementById("out");
+  function rand(n) { var b = new Uint32Array(1); crypto.getRandomValues(b); return b[0] % n; }
+  document.getElementById("go").addEventListener("click", function () {
+    var lo = Math.ceil(+min.value), hi = Math.floor(+max.value), q = Math.max(1, Math.floor(+qty.value) || 1);
+    if (isNaN(lo) || isNaN(hi) || hi < lo) { out.textContent = "check min and max"; return; }
+    var span = hi - lo + 1, picks = [];
+    if (uniq.value === "yes") {
+      if (q > span) { out.textContent = "need " + q + " unique picks but the range has only " + span; return; }
+      var seen = {};
+      while (picks.length < q) { var v = lo + rand(span); if (!seen[v]) { seen[v] = 1; picks.push(v); } }
+    } else {
+      for (var i = 0; i < q; i++) picks.push(lo + rand(span));
+    }
+    out.textContent = picks.join(" · ");
+  });
+})();
+</script>
+</body>
+</html>

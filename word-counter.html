@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word &amp; Character Counter — Live Counts As You Type | UtilHub</title>
+<meta name="description" content="Count words, characters, sentences and reading time as you type. Perfect for essays, tweets, ads and articles. Free, private, no sign-up.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ffb300'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%231a1200'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://zacariasfaray-dev.github.io/utilhub/word-counter.html">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="index.html">Util<span>Hub</span></a><nav class="top"><a href="index.html#tools">All tools</a></nav></div></header>
+
+<main class="wrap">
+<section class="tool-head">
+  <span class="pill">Word &amp; Character Counter</span>
+  <h1>Counts while you type</h1>
+  <p class="lead">Words, characters (with and without spaces), sentences and estimated reading time — nothing to click, everything updates live.</p>
+</section>
+
+<section class="panel">
+  <label for="txt">Paste or type your text</label>
+  <textarea id="txt" placeholder="Start typing or paste your text here…"></textarea>
+  <div class="result" id="out" aria-live="polite">0 words · 0 characters</div>
+</section>
+
+<section class="prose">
+  <h2>When writers use this</h2>
+  <p><strong>Essays and applications</strong> usually have hard limits — count characters with spaces before submitting, because most systems count them that way.</p>
+  <p><strong>Social posts and ads</strong> live and die by length: keep headlines under 60 characters and meta descriptions under 160 so search engines don't cut them off.</p>
+  <p><strong>Articles and blogs</strong> are judged partly by depth — a 1,000-word piece reads in about 4 minutes at an average pace of 250 words per minute, which is the estimate shown here.</p>
+</section>
+
+<section class="faq">
+  <h2>Counter FAQ</h2>
+  <details><summary>How is reading time calculated?</summary><p>Words ÷ 250 words per minute, rounded up to the nearest half minute. It's an average — slow, careful reading takes longer.</p></details>
+  <details><summary>What counts as a sentence?</summary><p>Text followed by a period, question mark or exclamation mark. Consecutive punctuation (like "…") counts once.</p></details>
+  <details><summary>Is my text uploaded anywhere?</summary><p>No. The counting runs in your browser as you type; nothing leaves your device.</p></details>
+</section>
+
+<section class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="percentage-calculator.html">Percentage Calculator</a></li>
+    <li><a href="password-generator.html">Password Generator</a></li>
+    <li><a href="random-number-generator.html">Random Number Generator</a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="site"><div class="wrap"><span>© <span id="ano"></span> UtilHub — free browser tools.</span><span><a href="index.html">All tools</a></span></div></footer>
+<script src="script.js"></script>
+<script>
+(function () {
+  var txt = document.getElementById("txt"), out = document.getElementById("out");
+  txt.addEventListener("input", function () {
+    var t = txt.value;
+    var words = t.trim() ? t.trim().split(/\s+/).length : 0;
+    var chars = t.length;
+    var charsNS = t.replace(/\s/g, "").length;
+    var sentences = (t.match(/[.!?]+(\s|$)/g) || []).length || (t.trim() ? 1 : 0);
+    var mins = Math.ceil(words / 250 * 2) / 2;
+    var read = words === 0 ? "" : " · ~" + mins + " min read";
+    out.textContent = words + " words · " + chars + " characters (" + charsNS + " without spaces) · " + sentences + " sentences" + read;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Converter — Length, Weight &amp; Temperature | UtilHub</title>
+<meta name="description" content="Convert length (km, miles, meters, feet), weight (kg, lbs, grams, ounces) and temperature (°C, °F) instantly. Free, accurate, works offline.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ffb300'/%3E%3Ctext x='50' y='68' font-size='48' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%231a1200'%3E%E2%87%84%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://zacariasfaray-dev.github.io/utilhub/unit-converter.html">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="index.html">Util<span>Hub</span></a><nav class="top"><a href="index.html#tools">All tools</a></nav></div></header>
+
+<main class="wrap">
+<section class="tool-head">
+  <span class="pill">Unit Converter</span>
+  <h1>Metric, imperial, in between</h1>
+  <p class="lead">The conversions people actually need — kilometers to miles, kilograms to pounds, Celsius to Fahrenheit — with results as you type.</p>
+</section>
+
+<section class="panel">
+  <label for="cat">Category</label>
+  <select id="cat">
+    <option value="length">Length</option>
+    <option value="weight">Weight</option>
+    <option value="temp">Temperature</option>
+  </select>
+  <div class="row2">
+    <div><label for="from">From</label><select id="from"></select></div>
+    <div><label for="to">To</label><select id="to"></select></div>
+  </div>
+  <div class="row2">
+    <div><label for="val">Value</label><input id="val" type="number" inputmode="decimal" value="1"></div>
+    <div><label>Result</label><div class="result" id="out" style="margin-top:0" aria-live="polite">—</div></div>
+  </div>
+</section>
+
+<section class="prose">
+  <h2>The units, in plain terms</h2>
+  <p><strong>Length</strong> covers kilometers, meters, centimeters, miles, feet and inches — travel distances, room sizes and heights all use these.</p>
+  <p><strong>Weight</strong> covers kilograms, grams, pounds and ounces — recipes and luggage limits mostly. 1 kg equals 2.20462 lbs exactly.</p>
+  <p><strong>Temperature</strong> converts Celsius and Fahrenheit both ways. Remember the scales cross at −40°: minus 40°C is minus 40°F, the one number that's the same everywhere.</p>
+</section>
+
+<section class="faq">
+  <h2>Converter FAQ</h2>
+  <details><summary>How accurate are the results?</summary><p>Factors are exact by definition where possible (1 inch = 25.4 mm, 1 lb = 0.45359237 kg) and results show up to 6 significant digits — far beyond daily-life needs.</p></details>
+  <details><summary>Why is −40 the same in Celsius and Fahrenheit?</summary><p>Because the two scales use different zero points and step sizes; −40 is where their lines cross. Below that, Fahrenheit reads colder; above, Celsius eventually catches up at the crossing point only.</p></details>
+  <details><summary>Does it need internet?</summary><p>No — after the page loads, all conversion math runs locally on your device.</p></details>
+</section>
+
+<section class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="tip-calculator.html">Tip Calculator</a></li>
+    <li><a href="percentage-calculator.html">Percentage Calculator</a></li>
+    <li><a href="word-counter.html">Word Counter</a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="site"><div class="wrap"><span>© <span id="ano"></span> UtilHub — free browser tools.</span><span><a href="index.html">All tools</a></span></div></footer>
+<script src="script.js"></script>
+<script>
+(function () {
+  var U = {
+    length: { m: ["Meters", 1], km: ["Kilometers", 1000], cm: ["Centimeters", 0.01], mi: ["Miles", 1609.344], ft: ["Feet", 0.3048], "in": ["Inches", 0.0254] },
+    weight: { kg: ["Kilograms", 1], g: ["Grams", 0.001], lb: ["Pounds", 0.45359237], oz: ["Ounces", 0.028349523125] },
+    temp: { c: ["Celsius (°C)", 1], f: ["Fahrenheit (°F)", 1] }
+  };
+  var cat = document.getElementById("cat"), from = document.getElementById("from"),
+      to = document.getElementById("to"), val = document.getElementById("val"),
+      out = document.getElementById("out");
+  function fill(sel, skip) {
+    sel.innerHTML = "";
+    Object.keys(U[cat.value]).forEach(function (k) {
+      var o = document.createElement("option");
+      o.value = k; o.textContent = U[cat.value][k][0];
+      sel.appendChild(o);
+    });
+  }
+  function toC(v, u) { return u === "c" ? v : (v - 32) * 5 / 9; }
+  function fromC(v, u) { return u === "c" ? v : v * 9 / 5 + 32; }
+  function calc() {
+    var x = parseFloat(val.value);
+    if (isNaN(x)) { out.textContent = "—"; return; }
+    var r;
+    if (cat.value === "temp") {
+      r = fromC(toC(x, from.value), to.value);
+      r = r.toLocaleString("en-US", { maximumFractionDigits: 2 });
+    } else {
+      r = x * U[cat.value][from.value][1] / U[cat.value][to.value][1];
+      r = r.toLocaleString("en-US", { maximumSignificantDigits: 6 });
+    }
+    out.textContent = r + " " + U[cat.value][to.value][0];
+  }
+  cat.addEventListener("change", function () { fill(from); fill(to); calc(); });
+  [from, to].forEach(function (s) { s.addEventListener("change", calc); });
+  val.addEventListener("input", calc);
+  fill(from); fill(to); calc();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tip Calculator — Split Bills &amp; Tips Fairly | UtilHub</title>
+<meta name="description" content="Calculate tip and split the bill between any number of people. Choose 10%, 15%, 20% or a custom rate. Instant, free, no sign-up.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23ffb300'/%3E%3Ctext x='50' y='68' font-size='46' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%231a1200'%3E%F0%9F%8D%BD%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://zacariasfaray-dev.github.io/utilhub/tip-calculator.html">
+</head>
+<body>
+<header class="site"><div class="wrap"><a class="logo" href="index.html">Util<span>Hub</span></a><nav class="top"><a href="index.html#tools">All tools</a></nav></div></header>
+
+<main class="wrap">
+<section class="tool-head">
+  <span class="pill">Tip Calculator</span>
+  <h1>Tip and split, no mental math</h1>
+  <p class="lead">Bill, tip rate, number of people — get each person's share and the totals, updated as you type.</p>
+</section>
+
+<section class="panel">
+  <div class="row2">
+    <div><label for="bill">Bill amount</label><input id="bill" type="number" inputmode="decimal" placeholder="e.g. 84.50" min="0"></div>
+    <div><label for="people">Split between</label><input id="people" type="number" value="1" min="1" max="100"></div>
+  </div>
+  <label for="tip">Tip: <strong id="tipVal">15%</strong></label>
+  <input id="tip" type="range" min="0" max="30" step="1" value="15" style="padding:0;border:0;background:none">
+  <div class="result" id="out" aria-live="polite">—</div>
+</section>
+
+<section class="prose">
+  <h2>What's a normal tip?</h2>
+  <p><strong>United States:</strong> 15–20% at restaurants is standard, 20%+ for excellent service; bars typically a dollar or two per drink. Taxi and delivery usually 10–15%.</p>
+  <p><strong>Europe and much of the world:</strong> service is often included — rounding up or 5–10% is a friendly gesture rather than an obligation. Check the bill first: "serviço" or "service compris" means it's already there.</p>
+  <p><strong>Splitting fairly:</strong> the per-person figure here divides bill + tip evenly. If one person ordered much more, it's polite to adjust up from this baseline rather than down.</p>
+</section>
+
+<section class="faq">
+  <h2>Tip FAQ</h2>
+  <details><summary>Should I tip on tax?</summary><p>Custom in the US is to tip on the pre-tax total, though many people simply tip on the final number for convenience — a slightly generous habit, never an offensive one.</p></details>
+  <details><summary>Does it work with any currency?</summary><p>Yes — the calculator is currency-agnostic. Type the amount in your local money and read the result in the same unit.</p></details>
+  <details><summary>Can I use decimal tip rates?</summary><p>Yes, the slider moves in 1% steps, but this page accepts any custom rate by editing the number — precision welcome.</p></details>
+</section>
+
+<section class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="percentage-calculator.html">Percentage Calculator</a></li>
+    <li><a href="unit-converter.html">Unit Converter</a></li>
+    <li><a href="random-number-generator.html">Random Number Generator</a></li>
+  </ul>
+</section>
+</main>
+
+<footer class="site"><div class="wrap"><span>© <span id="ano"></span> UtilHub — free browser tools.</span><span><a href="index.html">All tools</a></span></div></footer>
+<script src="script.js"></script>
+<script>
+(function () {
+  var bill = document.getElementById("bill"), people = document.getElementById("people"),
+      tip = document.getElementById("tip"), tipVal = document.getElementById("tipVal"),
+      out = document.getElementById("out");
+  function fmt(n) { return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function calc() {
+    tipVal.textContent = tip.value + "%";
+    var b = parseFloat(bill.value), p = Math.max(1, Math.floor(+people.value) || 1), t = +tip.value;
+    if (isNaN(b) || b < 0) { out.textContent = "—"; return; }
+    var tipAmt = b * t / 100, total = b + tipAmt;
+    var s = "Tip " + fmt(tipAmt) + " · Total " + fmt(total);
+    if (p > 1) s += " · " + fmt(total / p) + " each (" + p + " people)";
+    out.textContent = s;
+  }
+  [bill, people].forEach(function (el) { el.addEventListener("input", calc); });
+  tip.addEventListener("input", calc);
+  calc();
+})();
+</script>
+</body>
+</html>
